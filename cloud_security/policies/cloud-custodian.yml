@@ -1,0 +1,19 @@
+policies:
+  - name: cloud-security-public-storage-audit
+    resource: aws.s3
+    description: Қоғамға ашық немесе шифрланбаған S3 bucket-терді анықтау
+    filters:
+      - or:
+          - "PublicAccessBlockConfiguration.BlockPublicAcls": absent
+          - "PublicAccessBlockConfiguration.BlockPublicPolicy": absent
+          - "PublicAccessBlockConfiguration.IgnorePublicAcls": absent
+          - "PublicAccessBlockConfiguration.RestrictPublicBuckets": absent
+      - "ServerSideEncryptionConfiguration.Rules": absent
+    actions: []
+
+  - name: cloud-security-unencrypted-ebs-audit
+    resource: aws.ebs
+    description: Шифрланбаған EBS томдарын анықтау
+    filters:
+      - Encrypted: false
+    actions: []
