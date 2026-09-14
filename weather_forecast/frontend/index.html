@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f7fa" />
+    <title data-i18n="pageTitle">Прогноз погоды</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="site-brand" href="/" data-i18n-aria="brand">
+          <span class="brand-badge" aria-hidden="true">W</span>
+          <span>
+            <strong data-i18n="brand">Прогноз погоды</strong>
+            <small data-i18n="brandSubtitle">Учебный проект по машинному обучению</small>
+          </span>
+        </a>
+        <div class="language-switcher" role="group" data-i18n-aria="languageLabel">
+          <button class="language-button is-active" type="button" data-language="ru">RU</button>
+          <button class="language-button" type="button" data-language="kk">ҚАЗ</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="page-intro">
+          <div>
+            <p class="course-label" data-i18n="courseLabel">ПРОЕКТНАЯ РАБОТА</p>
+            <h1 data-i18n="headline">Прогноз температуры на 7 дней</h1>
+            <p class="intro-copy" data-i18n="introCopy">
+              Последние наблюдения используются для учебной модели, а справа показывается актуальный прогноз для Кызылорды.
+            </p>
+          </div>
+          <div class="location-chip">
+            <span data-i18n="locationLabel">Локация</span>
+            <strong>Кызылорда</strong>
+          </div>
+        </section>
+
+        <div class="content-grid">
+          <section class="card input-card">
+            <div class="card-heading">
+              <div>
+                <p class="section-label" data-i18n="inputLabel">ДАННЫЕ</p>
+                <h2 data-i18n="observationsTitle">Последние наблюдения</h2>
+              </div>
+              <span class="small-note" data-i18n="sevenDays">7 дней</span>
+            </div>
+            <p class="section-copy" data-i18n="observationsCopy">
+              Минимальная и максимальная температура — °C, осадки — мм, скорость ветра — км/ч.
+            </p>
+
+            <div>
+              <div class="table-wrap">
+                <table class="observations-table">
+                  <thead>
+                    <tr>
+                      <th scope="col" aria-hidden="true"></th>
+                      <th scope="col" data-i18n="date">Дата</th>
+                      <th scope="col" data-i18n="temperatureMin">Мин. температура</th>
+                      <th scope="col" data-i18n="temperatureMax">Макс. температура</th>
+                      <th scope="col" data-i18n="precipitation">Осадки</th>
+                      <th scope="col" data-i18n="windSpeed">Ветер</th>
+                    </tr>
+                  </thead>
+                  <tbody id="observations-body"></tbody>
+                </table>
+              </div>
+
+              <div id="form-error" class="message message-error" role="alert" hidden></div>
+              <div id="form-status" class="message message-status" role="status" hidden></div>
+
+            </div>
+          </section>
+
+          <section class="card result-card">
+            <div class="card-heading">
+              <div>
+                <p class="section-label" data-i18n="resultLabel">РЕЗУЛЬТАТ</p>
+                <h2 data-i18n="forecastTitle">Прогноз на неделю</h2>
+              </div>
+              <div class="result-actions">
+                <span id="forecast-model" class="small-note">—</span>
+                <button id="live-forecast-button" class="primary-button compact-button" type="button" data-i18n="refreshLiveButton">
+                  Обновить актуальный прогноз
+                </button>
+              </div>
+            </div>
+            <div class="summary-row">
+              <div>
+                <span class="summary-label" data-i18n="firstDayLabel">Первый день</span>
+                <strong id="forecast-value">—</strong>
+              </div>
+              <span id="forecast-date" class="summary-date" data-i18n="awaitingData">Ожидает данные</span>
+            </div>
+            <div id="forecast-chart" class="forecast-chart" aria-label="7-day forecast chart"></div>
+            <table id="forecast-table" class="forecast-table">
+              <thead>
+                <tr>
+                  <th scope="col" data-i18n="forecastDate">Дата</th>
+                  <th scope="col" data-i18n="forecastTemperature">Средняя температура</th>
+                </tr>
+              </thead>
+              <tbody id="forecast-body"></tbody>
+            </table>
+          </section>
+
+          <section class="card ml-result-card">
+            <div class="card-heading">
+              <div>
+                <p class="section-label" data-i18n="mlResultLabel">МОДЕЛЬ</p>
+                <h2 data-i18n="mlForecastTitle">Прогноз нашей ML-модели</h2>
+              </div>
+              <span id="ml-forecast-model" class="small-note">—</span>
+            </div>
+            <p class="section-copy" data-i18n="mlForecastCopy">
+              Отдельный прогноз средней температуры на каждый из следующих 7 дней, рассчитанный по историческому датасету.
+            </p>
+            <div id="ml-form-error" class="message message-error" role="alert" hidden></div>
+            <div id="ml-form-status" class="message message-status" role="status" hidden></div>
+            <div class="ml-summary-date" id="ml-forecast-date" data-i18n="awaitingData">Ожидает данные</div>
+            <table class="forecast-table ml-forecast-table">
+              <thead>
+                <tr>
+                  <th scope="col" data-i18n="forecastDate">Дата</th>
+                  <th scope="col" data-i18n="mlForecastTemperature">Средняя температура модели</th>
+                </tr>
+              </thead>
+              <tbody id="ml-forecast-body"></tbody>
+            </table>
+
+            <div class="comparison-heading">
+              <h3 data-i18n="comparisonTitle">Сравнение прогнозов</h3>
+              <p class="section-copy" data-i18n="comparisonCopy">
+                Сравнение средней температуры Open-Meteo с прогнозом нашей модели по каждому дню.
+              </p>
+            </div>
+            <div id="comparison-status" class="message message-status" role="status" data-i18n="comparisonWaiting">
+              Ожидаем оба прогноза…
+            </div>
+            <div class="table-wrap">
+              <table class="forecast-table comparison-table">
+                <thead>
+                  <tr>
+                    <th scope="col" data-i18n="forecastDate">Дата</th>
+                    <th scope="col" data-i18n="comparisonOpenMeteo">Open-Meteo, средняя</th>
+                    <th scope="col" data-i18n="comparisonMl">Наша модель</th>
+                    <th scope="col" data-i18n="comparisonError">Ошибка</th>
+                    <th scope="col" data-i18n="comparisonAccuracy">Точность</th>
+                  </tr>
+                </thead>
+                <tbody id="comparison-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <span data-i18n="footerNote">Модель: исторические данные Open-Meteo</span>
+        <span data-i18n="footerHint">Прототип для учебной демонстрации</span>
+      </footer>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="translations.js"></script>
+    <script src="comparison.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

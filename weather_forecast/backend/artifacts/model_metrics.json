@@ -1,0 +1,9 @@
+{
+  "model": "direct_random_forest",
+  "metrics": {
+    "mae": 2.9811530350242874,
+    "rmse": 3.8102212187866322,
+    "r2": 0.9085648496461438
+  },
+  "observations": 3653
+}

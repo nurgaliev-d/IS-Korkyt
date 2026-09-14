@@ -1,0 +1,7 @@
+backend/.venv/
+backend/__pycache__/
+backend/.pytest_cache/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/artifacts/temperature_model.joblib
+.DS_Store
