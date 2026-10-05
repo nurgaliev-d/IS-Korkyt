@@ -26,4 +26,3 @@
 | Error budget | SLO бұзылмай тұрып қабылдауға болатын қате қоры. |
 | Circuit breaker | Қате сервиске сұранысты уақытша тоқтатып, cascade failure-ді болдырмайды. |
 
-Презентацияны көрсетуге арналған [HTML-слайдтар](docs/presentation.html) да дайын: браузерде ашып, қажет болса `Ctrl+P → Save as PDF` арқылы PDF-ке сақтаңыз. Мазмұнының Markdown нұсқасы: [docs/presentation.md](docs/presentation.md). Сөйлеу мәтіні: [docs/speech.md](docs/speech.md).
