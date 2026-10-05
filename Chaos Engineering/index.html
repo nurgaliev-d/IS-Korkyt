@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ResiliLab — Chaos Engineering</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div><p class="eyebrow">CHAOS ENGINEERING LAB</p><h1>ResiliLab</h1><p class="subtitle">Микросервистердің fault tolerance көрсеткішін тестілеу платформасы</p></div>
+    <div class="run-state"><span id="stateDot"></span><span id="stateText">Жүйе қалыпты</span><button id="resetBtn" class="ghost">Қалпына келтіру</button></div>
+  </header>
+
+  <main>
+    <section class="intro card">
+      <div><h2>Бақыланатын тәжірибе</h2><p>Төмендегі қателерді бір-бірден қосып, жүйенің қорғаныс механизмдері мен метрикаларына әсерін бақылаңыз.</p></div>
+      <div class="score"><span>Fault Tolerance Score</span><strong id="score">99.8</strong><small>/ 100</small></div>
+    </section>
+
+    <section class="grid">
+      <article class="card topology">
+        <div class="section-title"><h2>Қызметтер топологиясы</h2><span class="badge">LIVE SIMULATION</span></div>
+        <div class="flow">
+          <div class="service healthy" id="gateway"><span class="service-icon">⇄</span><b>API Gateway</b><small>Rate limit · Timeout</small></div>
+          <i>→</i><div class="service healthy" id="order"><span class="service-icon">□</span><b>Order Service</b><small>Orchestrator</small></div>
+          <i>→</i><div class="branches"><div class="service healthy" id="payment"><span class="service-icon">₸</span><b>Payment</b><small>Retry · Circuit breaker</small></div><div class="service healthy" id="inventory"><span class="service-icon">▣</span><b>Inventory</b><small>Cache · Fallback</small></div></div>
+        </div>
+        <div class="legend"><span><i class="green"></i> Қалыпты</span><span><i class="yellow"></i> Degraded</span><span><i class="red"></i> Failure</span><span><i class="blue"></i> Protection active</span></div>
+      </article>
+
+      <article class="card experiments">
+        <div class="section-title"><h2>Chaos эксперименттері</h2><span id="activeCount">0 белсенді</span></div>
+        <button class="experiment" data-type="latency"><span class="exp-icon">◷</span><span><b>Latency injection</b><small>Payment сервисіне +1500 ms кешігу</small></span><span class="toggle"></span></button>
+        <button class="experiment" data-type="failure"><span class="exp-icon">!</span><span><b>Pod failure</b><small>Inventory replica-сының істен шығуы</small></span><span class="toggle"></span></button>
+        <button class="experiment" data-type="network"><span class="exp-icon">⌁</span><span><b>Network loss</b><small>Gateway → Order арасында 30% packet loss</small></span><span class="toggle"></span></button>
+        <button class="experiment" data-type="overload"><span class="exp-icon">↯</span><span><b>Traffic overload</b><small>Трафик 5× көбейеді</small></span><span class="toggle"></span></button>
+      </article>
+    </section>
+
+    <section class="metrics">
+      <article class="metric card"><span>Availability</span><strong id="availability">99.98%</strong><em id="availabilityNote">SLO: ≥ 99.9%</em></article>
+      <article class="metric card"><span>Success rate</span><strong id="success">99.7%</strong><em id="successNote">Жақсы</em></article>
+      <article class="metric card"><span>p95 Latency</span><strong id="latency">142 ms</strong><em id="latencyNote">Бюджет: 500 ms</em></article>
+      <article class="metric card"><span>Error budget</span><strong id="budget">86%</strong><em id="budgetNote">Қауіпсіз аймақ</em></article>
+    </section>
+
+    <section class="grid lower">
+      <article class="card chart-card"><div class="section-title"><h2>Сұраныстардың уақыт сызығы</h2><span id="chartLabel">Соңғы 60 секунд</span></div><div class="chart"><div class="axis y"><span>100%</span><span>50%</span><span>0%</span></div><div class="plot"><div class="gridline g1"></div><div class="gridline g2"></div><svg viewBox="0 0 600 170" preserveAspectRatio="none"><polyline id="successLine" points="0,15 40,14 80,15 120,13 160,14 200,15 240,13 280,15 320,14 360,15 400,14 440,15 480,13 520,15 560,14 600,15"/></svg><span class="curve-label">Success rate</span></div></div></article>
+      <article class="card protections"><div class="section-title"><h2>Resilience механизмдері</h2><span>Статус</span></div><div class="protection"><span>Circuit breaker</span><b id="circuit">CLOSED</b></div><div class="protection"><span>Retry policy</span><b id="retry">Қалыпты</b></div><div class="protection"><span>Fallback / Cache</span><b id="fallback">Дайын</b></div><div class="protection"><span>Auto-scaling</span><b id="scaling">1 replica</b></div></article>
+    </section>
+
+    <section class="card log-card"><div class="section-title"><h2>Experiment log</h2><button id="clearLog" class="text-button">Тазалау</button></div><ol id="log"><li><time>09:00:00</time><span>Платформа іске қосылды. Baseline метрикалары жиналды.</span></li></ol></section>
+  </main>
+  <footer>ResiliLab оқу демонстрациясы · Chaos Engineering: hypothesis → experiment → observe → improve</footer>
+  <script src="app.js"></script>
+</body>
+</html>
